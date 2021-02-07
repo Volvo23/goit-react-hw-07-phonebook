@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import s from "./ContactForm.module.css";
-import contactsActions from "../../redux/tasks/contactsActions";
+import contactsOperations from "../../redux/tasks/contactsOperations";
 import { CSSTransition } from "react-transition-group";
 import Insert from "../insert/Insert";
 import Notification from "../notification/Notofication";
+import contactActions from "../../redux/tasks/contactsActions";
+import contactsSelectors from "../../redux/tasks/contactsSelectors";
 
 class ContactForm extends Component {
   state = {
@@ -15,21 +17,21 @@ class ContactForm extends Component {
     showEmpty: false,
   };
 
-  componentDidMount() {
-    const contacts = localStorage.getItem("contacts");
+  // componentDidMount() {
+  //   const contacts = localStorage.getItem("contacts");
 
-    if (contacts) {
-      this.props.localStorage(JSON.parse(contacts));
-    }
-  }
+  //   if (contacts) {
+  //     this.props.localStorage(JSON.parse(contacts));
+  //   }
+  // }
 
-  componentDidUpdate(prevProps) {
-    const { contacts } = this.props;
+  // componentDidUpdate(prevProps) {
+  //   const { contacts } = this.props;
 
-    if (prevProps.contacts !== contacts) {
-      localStorage.setItem("contacts", JSON.stringify(contacts));
-    }
-  }
+  //   if (prevProps.contacts !== contacts) {
+  //     localStorage.setItem("contacts", JSON.stringify(contacts));
+  //   }
+  // }
 
   handleChange = (e) => {
     const name = e.target.name;
@@ -110,13 +112,13 @@ class ContactForm extends Component {
 }
 
 const mapDispatchToProps = {
-  addContact: contactsActions.addContact,
-  localStorage: contactsActions.localStorage,
+  addContact: contactsOperations.addContact,
+  // localStorage: contactActions.localStorage,
 };
 
 const mapStateToProps = (state) => {
   return {
-    contacts: state.contacts.contactList,
+    contacts: contactsSelectors.getContact(state),
   };
 };
 

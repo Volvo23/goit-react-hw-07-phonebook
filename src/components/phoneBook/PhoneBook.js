@@ -6,10 +6,15 @@ import ContactList from "./contactList/ContactList";
 import ContactFilter from "./contactFilter/ContactFilter";
 import { CSSTransition } from "react-transition-group";
 import s from "./PhoneBook.module.css";
+import contactsOperations from "../redux/tasks/contactsOperations";
+import contactsSelectors from "../redux/tasks/contactsSelectors";
 // import Notification from "./notification/Notofication";
 // import Insert from "./insert/Insert";
 
 class PhoneBook extends Component {
+  componentDidMount() {
+    this.props.onfetchContacts();
+  }
   render() {
     // const { newContact, showAlert, showInsert } = this.state;
     return (
@@ -19,7 +24,7 @@ class PhoneBook extends Component {
         </CSSTransition>
         <ContactForm />
 
-        {this.props.contacts.length > 1 && <ContactFilter />}
+        <ContactFilter />
 
         <ContactList />
       </div>
@@ -29,8 +34,11 @@ class PhoneBook extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    contacts: state.contacts.contactList,
+    contacts: contactsSelectors.getContact(state),
   };
 };
+const mapDispatchToProps = {
+  onfetchContacts: contactsOperations.fetchContacts,
+};
 
-export default connect(mapStateToProps)(PhoneBook);
+export default connect(mapStateToProps, mapDispatchToProps)(PhoneBook);

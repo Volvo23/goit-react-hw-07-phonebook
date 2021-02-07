@@ -3,16 +3,17 @@ import { createReducer } from "@reduxjs/toolkit";
 import contactsActions from "./contactsActions";
 
 const addContact = (state, action) => {
-  return [...state, action.payload.contact];
+  return [...state, action.payload];
 };
 const removeContact = (state, action) => {
-  return state.filter((contact) => contact.id !== action.payload);
+  return state.filter((contact) => contact.id.toString() !== action.payload);
 };
 
 const contactList = createReducer([], {
-  [contactsActions.addContact]: addContact,
-  [contactsActions.deleteContact]: removeContact,
-  [contactsActions.localStorage]: (_, action) => action.payload,
+  [contactsActions.fetchContactsSuccess]: (state, action) => action.payload,
+  [contactsActions.addContactSuccess]: addContact,
+  [contactsActions.removeContactsSuccess]: removeContact,
+  // [contactsActions.localStorage]: (_, action) => action.payload,
 });
 
 const filter = createReducer("", {

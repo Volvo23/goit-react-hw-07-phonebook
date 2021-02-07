@@ -2,13 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import s from "./ContactList.module.css";
+import contactsOperations from "../../redux/tasks/contactsOperations";
 import contactsActions from "../../redux/tasks/contactsActions";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import contactsSelectors from "../../redux/tasks/contactsSelectors";
 
-const ContactList = ({ contacts, deleteContact }) => {
+const ContactList = ({ contacts, removeContact }) => {
   const onHandleDelete = (e) => {
     const id = e.target.dataset.id;
-    deleteContact(id);
+    removeContact(id);
   };
   return (
     <div>
@@ -40,30 +42,21 @@ const ContactList = ({ contacts, deleteContact }) => {
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      number: PropTypes.string,
-      id: PropTypes.string,
+      // name: PropTypes.string,
+      // number: PropTypes.string,
+      // id: PropTypes.string,
     })
   ),
   onDeleteContact: PropTypes.func,
 };
-const mapStateToProps = (state) => {
-  const { contactList, filter } = state.contacts;
-  const normalizeFilter = filter.toLowerCase();
-
-  const filtredContacts = contactList.filter((contact) =>
-    contact.name.toLowerCase().includes(normalizeFilter)
-  );
-
-  return {
-    contacts: filtredContacts,
-  };
-};
+const mapStateToProps = (state) => ({
+  contacts: contactsSelectors.getFilteredContacts(state),
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteContact: (id) => {
-      dispatch(contactsActions.deleteContact(id));
+    removeContact: (id) => {
+      dispatch(contactsOperations.removeContact(id));
     },
 
     // getFiltredContacts: ({ contacts, filter }) => {

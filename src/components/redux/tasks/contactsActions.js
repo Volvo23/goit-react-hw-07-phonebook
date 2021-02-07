@@ -1,50 +1,44 @@
 import { createAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 
-const addContact = createAction("contacts/add.ADD", ({ name, number }) => ({
-  payload: {
-    contact: {
-      id: uuidv4(),
-      name,
-      number,
-    },
-  },
-}));
+const addContactRequest = createAction("contacts/addRequest");
+const addContactSuccess = createAction("contacts/addSuccess");
+const addContactError = createAction("contacts/addError");
 
-const deleteContact = createAction("contacts/remove");
+const fetchContactsRequest = createAction("contacts/fetchRequest");
+const fetchContactsSuccess = createAction("contacts/fetchSuccess");
+const fetchContactsError = createAction("contacts/fetchError");
+
+const removeContactsRequest = createAction("contacts/removeRequest");
+const removeContactsSuccess = createAction("contacts/removeSuccess");
+const removeContactsError = createAction("contacts/removeError");
+
+// const addContact = createAction("contacts/add.ADD", ({ name, number }) => ({
+//   payload: {
+//     contact: {
+//       id: uuidv4(),
+//       name,
+//       number,
+//     },
+//   },
+// }));
+
+//  const deleteContact = createAction("contacts/remove");
 
 const onHandleFilter = createAction("contacts/handleFilter");
-const localStorage = createAction("contacts/localStorage");
+// const localStorage = createAction("contacts/localStorage");
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  addContact,
-  deleteContact,
+  addContactRequest,
+  addContactSuccess,
+  addContactError,
+  fetchContactsRequest,
+  fetchContactsSuccess,
+  fetchContactsError,
+  // deleteContact,
   onHandleFilter,
-  localStorage,
+  removeContactsRequest,
+  removeContactsSuccess,
+  removeContactsError,
+  // localStorage,
 };
-
-// const addContact = ({ name, number }) => ({
-//     type: actionTypes.ADD,
-//     payload: {
-//         contact: {
-//             id: uuidv4(),
-//             name,
-//             number,
-//         }
-//     }
-// })
-
-// const deleteContact = (id) => ({
-//     type: actionTypes.REMOVE,
-//     payload: {
-//         id,
-//     }
-// })
-
-// const onHandleFilter = (filter) => ({
-//     type: actionTypes.VALUE,
-//     payload: {
-//         filter,
-//     }
-// })
